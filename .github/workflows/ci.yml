@@ -1,0 +1,83 @@
+# .github/workflows/ci.yml
+#
+# QR-SPPS — Continuous Integration Workflow
+# ─────────────────────────────────────────────────────────────────────────────
+# Validates that the dashboard can be imported and that all dependencies
+# resolve correctly. Does NOT re-run quantum simulations (those require
+# the Fujitsu A64FX cluster with QARP v0.4.4).
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: CI — Dependency & Import Validation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Dependencies & Imports
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate core imports
+        run: |
+          python -c "
+          import streamlit
+          import plotly
+          import pandas
+          import numpy
+          import scipy
+          import networkx
+          print('✅ All dashboard dependencies resolved successfully.')
+          print(f'   streamlit: {streamlit.__version__}')
+          print(f'   plotly:    {plotly.__version__}')
+          print(f'   pandas:    {pandas.__version__}')
+          print(f'   numpy:     {numpy.__version__}')
+          "
+
+      - name: Check dashboard.py syntax
+        run: |
+          python -m py_compile dashboard.py
+          echo "✅ dashboard.py syntax is valid."
+
+      - name: Verify data directory structure
+        run: |
+          python -c "
+          import os
+          expected = [
+              'data/QRSPPS_hamiltonians.pkl',
+              'data/QRSPPS_vqe_results.pkl',
+              'data/QRSPPS_policy_results.pkl',
+              'data/QRSPPS_dosqpe_results.pkl',
+              'data/QRSPPS_scaling_results.pkl',
+          ]
+          missing = [f for f in expected if not os.path.exists(f)]
+          if missing:
+              print('⚠️  Pre-computed data files not found (expected on cluster):')
+              for f in missing: print(f'   {f}')
+              print('   Dashboard will use synthetic fallback data for demo.')
+          else:
+              print('✅ All pre-computed .pkl result files present.')
+          "
