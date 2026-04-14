@@ -4,7 +4,7 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2604.00035-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.00035)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-Live%20Simulator-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://qr-spps.streamlit.app)
-[![Fujitsu QARP](https://img.shields.io/badge/Fujitsu%20QARP-v0.4.4-0078D4?style=for-the-badge)](https://www.fujitsu.com/global/services/quantum-computing/)
+[![Fujitsu QARP](https://img.shields.io/badge/Fujitsu%20QARP-v0.4.4-0078D4?style=for-the-badge)](https://global.fujitsu/-/media/Project/Fujitsu/Fujitsu-HQ/technology/research/article/topics/202512-quantum-simulator-challenge/Key_features_of_Fujitsu_QARP.pdf?rev=8aac7fdec70145e59fddb158c52ae43a&hash=325312CE02BBEA9B2726A7042C386AD1)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
