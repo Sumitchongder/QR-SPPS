@@ -302,7 +302,10 @@ hr { border-color: var(--border) !important; margin: 20px 0 !important; }
 
 
 # ── Data loading ───────────────────────────────────────────────
-PKL_DIR = os.path.dirname(os.path.abspath(__file__))
+# Points to the absolute path of the directory containing dashboard.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Points to the data folder inside that directory
+PKL_DIR = os.path.join(BASE_DIR, 'data')
 
 class _SafeUnpickler(pickle.Unpickler):
     def find_class(self, module, name):
@@ -319,6 +322,12 @@ def load_all_data():
         'dosqpe':  'QRSPPS_dosqpe_results.pkl',
         'scaling': 'QRSPPS_scaling_results.pkl',
     }
+    
+    # Ensure the data directory exists
+    if not os.path.exists(PKL_DIR):
+        st.error(f"Data directory not found at: {PKL_DIR}")
+        return {k: None for k in files.keys()}
+
     for key, fname in files.items():
         path = os.path.join(PKL_DIR, fname)
         if os.path.exists(path):
@@ -332,6 +341,8 @@ def load_all_data():
                 data[key] = None
                 st.warning(f"Could not load {fname}: {e}")
         else:
+            # Helpful debug message to see where it's looking
+            st.error(f"File not found: {path}")
             data[key] = None
     return data
 
