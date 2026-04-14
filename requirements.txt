@@ -1,0 +1,25 @@
+# QR-SPPS: Quantum-Native Retail Shock Propagation & Policy Stress Simulator
+# Requirements for Streamlit Dashboard (local / cloud deployment)
+# Fujitsu Quantum Simulator Challenge 2025-26
+#
+# For Fujitsu A64FX cluster execution, see scripts/setup_env.sh
+# which installs Fujitsu QARP v0.4.4 and Qulacs 0.6.12 (ARM MPI kernel)
+
+# ── Core dashboard ──────────────────────────────────────────────
+streamlit>=1.35.0,<2.0.0
+plotly>=5.22.0
+pandas>=2.2.0
+numpy>=1.26.0
+
+# ── Quantum / scientific (dashboard loads pre-computed .pkl files)
+# Full quantum stack (Fujitsu QARP + Qulacs) runs on the A64FX cluster.
+# These packages are required for result verification and local re-execution.
+scipy>=1.13.0
+openfermion>=1.6.0
+
+# ── Visualisation extras ─────────────────────────────────────────
+networkx>=3.3.0          # Supply chain graph visualisation
+matplotlib>=3.9.0        # Fallback plots
+
+# ── Utilities ────────────────────────────────────────────────────
+requests>=2.32.0         # Used by keep-alive workflow ping utility

@@ -1,0 +1,63 @@
+# QR-SPPS .gitignore
+# ─────────────────────────────────────────────────────────────────
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+*.dylib
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+QARPdemo/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Compiled QARP binaries (not redistributable)
+*.pyc
+
+# Large data files — add to Git LFS if needed
+# Uncomment if pkl files are too large for standard Git:
+# *.pkl
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Cluster job output
+*.out
+*.err
+slurm-*.out
+
+# Secrets
+.env
+*.key
+*.pem
+secrets/
+
+# Streamlit cache
+.streamlit/secrets.toml

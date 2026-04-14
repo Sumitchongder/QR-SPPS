@@ -1,0 +1,64 @@
+cff-version: 1.2.0
+message: >
+  If you use QR-SPPS in your research, please cite both the arXiv preprint
+  (algorithmic framework) and this repository (Fujitsu hardware implementation).
+
+title: >
+  QR-SPPS: Quantum-Native Retail Shock Propagation & Policy Stress Simulator
+  — Fujitsu Quantum Simulator Challenge 2025-26
+
+authors:
+  - family-names: Chongder
+    given-names: Sumit Tapas
+    affiliation: >
+      M.Tech, Quantum Technologies, Indian Institute of Technology Jodhpur,
+      Rajasthan 342030, India
+    email: sumitchongder960@gmail.com
+    orcid: ""
+
+version: "1.0.0"
+date-released: "2026-03-21"
+license: MIT
+url: "https://github.com/sumitchongder/QR-SPPS"
+repository-code: "https://github.com/sumitchongder/QR-SPPS"
+
+abstract: >
+  QR-SPPS (Quantum-Native Retail Shock Propagation and Policy Stress Simulator)
+  is a five-notebook quantum pipeline implemented on the Fujitsu QSim A64FX
+  cluster (QARP v0.4.4) that encodes a 40-node, 4-tier retail supply network
+  as a 40-qubit Ising Hamiltonian and applies VQE, ADAPT-VQE, and DOS-QPE
+  to detect cascade failures (39/40 nodes), rank counterfactual policy
+  interventions in real time, and quantify Boltzmann-weighted tail risk.
+  The Fujitsu A64FX achieves 2.8× more cascade detections than a standard
+  workstation, with R²=0.9948 scaling confirmed across 6 MPI data points.
+
+keywords:
+  - quantum computing
+  - supply chain risk
+  - variational quantum eigensolver
+  - ADAPT-VQE
+  - DOS-QPE
+  - Ising Hamiltonian
+  - Fujitsu QARP
+  - A64FX
+  - cascade failure
+  - quantum advantage
+
+preferred-citation:
+  type: article
+  title: >
+    QR-SPPS: Quantum-Native Retail Supply Chain Risk Simulation via VQE,
+    ADAPT-VQE Counterfactual Policy Ranking, and DOS-QPE Boltzmann Tail Risk
+    Quantification
+  authors:
+    - family-names: Chongder
+      given-names: Sumit Tapas
+  journal: "arXiv preprint"
+  year: 2026
+  url: "https://arxiv.org/abs/2604.00035"
+  doi: "10.48550/arXiv.2604.00035"
+  identifiers:
+    - type: doi
+      value: "10.48550/arXiv.2604.00035"
+    - type: url
+      value: "https://arxiv.org/abs/2604.00035"
