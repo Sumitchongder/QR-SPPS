@@ -12,7 +12,7 @@
 
 *Detecting supply chain cascade failures invisible to classical methods, at the 40-qubit scale on the Fujitsu A64FX supercomputer.*
 
-[Live Dashboard](https://qr-spps.streamlit.app) · [arXiv Paper](https://arxiv.org/abs/2604.00035) · [Results Data](#data-availability) · [QARP Feedback](#fujitsu-qarp-feedback)
+[Live Simulator](https://qr-spps.streamlit.app) · [arXiv Paper](https://arxiv.org/abs/2604.00035) · [Results Data](#data-availability) · [QARP Feedback](#fujitsu-qarp-feedback)
 
 </div>
 
