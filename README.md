@@ -39,16 +39,16 @@ The present submission documents the **hardware implementation on Fujitsu QARP v
 ## Key Results at a Glance
 
 ```
-╔══════════════════════════════════════════════════════════════════════╗
-║  40-qubit Hamiltonian   2⁴⁰ states · 57 ZZ edges · Δ = 1.3000 a.u. ║
-║  VQE ground state       E₀[40q] = −44.6931 · Zero error · 5 restarts ║
-║  Quantum advantage      39/40 nodes · max|ΔP| = 0.9504 (30× MC err) ║
-║  Best policy            Stockpile release · ΔE[40q] = −7.4505 (16.67%)║
-║  Top ADAPT gradient     Supplier subsidy · g = 4.1955               ║
-║  Tail risk              P_cat = 0.147% at T≤1 (thermodynamic protect) ║
-║  Hardware scaling       R² = 0.9948 · 30q physical ceiling · 1308h@40q║
-║  Business impact        ~$8–12M annual stock-out savings (est.)      ║
-╚══════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════════╗
+║  40-qubit Hamiltonian   2⁴⁰ states · 57 ZZ edges · Δ = 1.3000 a.u.     ║
+║  VQE ground state       E₀[40q] = −44.6931 · Zero error · 5 restarts   ║
+║  Quantum advantage      39/40 nodes · max|ΔP| = 0.9504 (30× MC err)    ║
+║  Best policy            Stockpile release · ΔE[40q] = −7.4505 (16.67%) ║
+║  Top ADAPT gradient     Supplier subsidy · g = 4.1955                  ║
+║  Tail risk              P_cat = 0.147% at T≤1 (thermodynamic protect)  ║
+║  Hardware scaling       R² = 0.9948 · 30q physical ceiling · 1308h@40q ║ 
+║  Business impact        ~$8–12M annual stock-out savings (est.)        ║
+╚════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
@@ -106,34 +106,34 @@ Tier 3 (Retail)         Store-01 through Store-20 (q20–q39)[h = 0.25]
 
 The five-notebook pipeline runs sequentially on the Fujitsu QSim A64FX:
 
-### NB1 — 40-Qubit Hamiltonian Construction
+### NB1: 40-Qubit Hamiltonian Construction
 - Constructs the full 40-qubit Ising Hamiltonian using OpenFermion `QubitOperator`
 - Exact diagonalisation at 12q (E₀ = −10.3931) and 16q (E₀ = −15.2931) sub-networks
 - Linear energy density −1.117 a.u./qubit extrapolates to E₀[40q] = −44.6931
 - Spectral gap Δ = 1.3000 a.u. consistent across all sub-networks
 
-### NB2 — VQE Ground State (30-Qubit Execution)
+### NB2: VQE Ground State (30-Qubit Execution)
 - Hardware-Efficient Ansatz: depth D=3, 120 parameters (RY layers + CNOT chains)
 - COBYLA optimiser, 5 random restarts, up to 2,000 iterations each
 - **Zero error** against independently verified exact ground state across all 5 restarts
 - 39/40 nodes show quantum-advantaged cascade detection (|ΔP| > 0.15 vs classical MC)
 - Maximum divergence: 0.9504 at RM-B — a 30× underestimation by classical MC
 
-### NB3 — ADAPT-VQE Counterfactual Policy Ranking
+### NB3: ADAPT-VQE Counterfactual Policy Ranking
 - Six macroeconomic interventions encoded as Hamiltonian perturbations (X, Z, ZZ operators)
 - Gradient screening uses previously computed VQE state — **no full re-optimisation**
 - All 6 policies evaluated in < 6 seconds total (O(1) per policy vs O(N_iter) sequential)
 - **Stockpile release:** ΔE[40q] = −7.4505 (16.67% network energy reduction)
 - **Supplier subsidy:** g = 4.1955 (highest systemic leverage — 4.2× above all others)
 
-### NB4 — DOS-QPE Spectral Reconstruction & Tail Risk
+### NB4: DOS-QPE Spectral Reconstruction & Tail Risk
 - 64-step Trotter evolution (Tmax = 15.0, Δt = 0.2381)
 - Nyquist condition verified: 2.10 > 1.7333 spectral width — zero aliasing
 - Boltzmann-weighted catastrophe probability P_cat(T) for all market volatility temperatures
 - Cascade propagation: 3.0-unit intervention window from RM-A failure to retail impact
 - Final mean stress across all 40 nodes: 0.7945
 
-### NB5 — Hardware Scaling Benchmarks (12–30 Qubits)
+### NB5: Hardware Scaling Benchmarks (12–30 Qubits)
 - Exponential scaling law: t(n) = 7.8785 × 2^{1.1993(n−24)}, **R² = 0.9948**
 - 30q physical memory ceiling confirmed: 17.2 GB state-vector on A64FX
 - 31q exceeds 32 GB total node RAM — absolute physical hardware ceiling
