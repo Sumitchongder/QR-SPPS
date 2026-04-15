@@ -2,22 +2,16 @@
 #
 # QR-SPPS — Streamlit App Keep-Alive Workflow
 # ─────────────────────────────────────────────────────────────────────────────
-# Streamlit Community Cloud hibernates apps that receive no traffic for 7+ days.
-# This workflow pings the live dashboard every hour, 24/7, ensuring zero
-# cold-start latency for Fujitsu Challenge judges and stakeholders.
-#
-# Schedule:  every hour at minute 0
-# Trigger:   cron + manual dispatch
+# This workflow pings the live dashboard every 5 minutes to prevent hibernation.
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Keep Streamlit App Alive
 
 on:
   schedule:
-    # Runs every hour at minute 0 (UTC)
-    - cron: "0 * * * *"
+    # Runs every 5 minutes
+    - cron: "*/5 * * * *"
   workflow_dispatch:
-    # Allow manual trigger from GitHub Actions UI
     inputs:
       reason:
         description: "Reason for manual trigger"
@@ -34,7 +28,7 @@ jobs:
       - name: Ping Streamlit App
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "  QR-SPPS Keep-Alive Ping"
+          echo "  QR-SPPS Keep-Alive Ping (High Frequency)"
           echo "  Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
           echo "  Target: https://qr-spps.streamlit.app"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -42,9 +36,7 @@ jobs:
           HTTP_STATUS=$(curl --silent --output /dev/null \
             --write-out "%{http_code}" \
             --max-time 30 \
-            --retry 3 \
-            --retry-delay 5 \
-            --retry-max-time 60 \
+            --retry 2 \
             "https://qr-spps.streamlit.app")
 
           echo "  HTTP Status: $HTTP_STATUS"
@@ -53,11 +45,7 @@ jobs:
             echo "  ✅ App is alive and responding."
           else
             echo "  ⚠️  Unexpected status code: $HTTP_STATUS"
-            echo "  Attempting secondary ping..."
-            curl --silent --output /dev/null \
-              --max-time 60 \
-              "https://qr-spps.streamlit.app" || true
-            echo "  Secondary ping sent."
+            # Secondary ping as backup
+            curl --silent --output /dev/null --max-time 60 "https://qr-spps.streamlit.app" || true
           fi
-
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
