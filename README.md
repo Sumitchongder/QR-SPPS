@@ -101,7 +101,7 @@ Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** 
 The 40-node retail network is modelled as a directed four-tier graph. Each business entity maps to a single qubit; the binary quantum state encodes whether that node is operating normally or under stress. Supplier-buyer relationships become ZZ coupling terms whose strength reflects historical co-failure probability, while an exogenous shock — a port closure, geopolitical embargo, or demand collapse enters as a transverse X field on the affected nodes.
 
 ```
-H = Σᵢ hᵢZᵢ  −  Σ_{(i,j)∈E} J_{ij}ZᵢZⱼ  −  Σ_{k∈S} λₖXₖ
+H =   Σᵢ hᵢZᵢ   −   Σ_{(i,j)∈E} J_{ij}ZᵢZⱼ   −   Σ_{k∈S} λₖXₖ
      ─────────    ──────────────────────────    ──────────────
      local bias    57 ZZ entanglement terms      shock fields
 ```
