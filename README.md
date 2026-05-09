@@ -22,7 +22,7 @@
 
 Supply chains fail in correlated, nonlinear ways that classical risk models are not designed to capture. When a raw-material node collapses, the damage cascades through multiple tiers simultaneously, yet standard Monte Carlo methods treat each node as statistically independent, producing catastrophically optimistic risk estimates. The 2021 semiconductor crisis, which erased roughly $210B from automotive revenues, is a real-world illustration of exactly this blind spot.
 
-QR-SPPS addresses this gap by translating the supply chain risk problem into the language of quantum physics. A 40-node, four-tier retail network is encoded as a quantum Ising spin system, where inter-supplier dependencies become ZZ entanglement operators and exogenous disruptions become transverse field terms. This mapping allows the system's minimum-stress equilibrium to be found using a Variational Quantum Eigensolver without the exponential classical overhead that makes brute-force enumeration infeasible beyond roughly 20 nodes.
+QR-SPPS addresses this gap by translating the supply chain risk problem into the language of quantum physics. A 40-node, four-tier retail network is encoded as a quantum Ising spin system, where inter-supplier dependencies are represented by ZZ entanglement operators and exogenous disruptions by transverse-field terms. This mapping allows the system's minimum-stress equilibrium to be found using a Variational Quantum Eigensolver without the exponential classical overhead that makes brute-force enumeration infeasible beyond roughly 20 nodes.
 
 Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** using **Fujitsu QARP v0.4.4**:
 
@@ -30,7 +30,7 @@ Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** 
 2. **ADAPT-VQE gradient screening** ranks macroeconomic policy interventions at a computational cost of one operator expectation per policy, no re-optimisation required
 3. **DOS-QPE** reconstructs the full energy eigenspectrum and produces a Boltzmann-weighted catastrophe probability curve as a function of market volatility temperature, suitable for direct integration into regulatory VaR frameworks
 
-> **Hardware vs. Preprint:** The arXiv preprint (2604.00035) establishes the theoretical framework and algorithmic design. This repository documents the **hardware execution** on the Fujitsu A64FX, which produces substantially superior results: 39/40 quantum-advantage nodes vs. 14/40 on a standard workstation, 64 Trotter steps vs. 32, and full 5-restart VQE convergence — none of which are achievable on commodity hardware due to memory constraints.
+> **Hardware vs. Preprint:** The arXiv preprint (2604.00035) establishes the theoretical framework and algorithmic design. This repository documents the **hardware execution** on the Fujitsu A64FX, which produces substantially superior results: 39/40 quantum-advantage nodes vs. 14/40 on a standard workstation, 64 Trotter steps vs. 32, and full 5-restart VQE convergence, none of which are achievable on commodity hardware due to memory constraints.
 
 ---
 
@@ -39,19 +39,19 @@ Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  Hilbert space dimension    2^40 = 1,099,511,627,776 states             │
-│  ZZ entanglement edges      57 supplier-dependency coupling terms        │
-│  Spectral gap               Δ = 1.3000 a.u. (consistent 12q–30q)       │
-│  VQE ground state           E₀[40q] = −44.6931 a.u.                    │
+│  ZZ entanglement edges      57 supplier-dependency coupling terms       │
+│  Spectral gap               Δ = 1.3000 a.u. (consistent 12q–30q)        │
+│  VQE ground state           E₀[40q] = −44.6931 a.u.                     │
 │  VQE accuracy               Zero error vs. exact (machine precision)    │
-│  Quantum-advantage nodes    39 of 40 (|ΔP| > 0.15 vs. classical MC)    │
-│  Peak classical underest.   30× at node RM-B (P_VQE = 0.95 vs 0.03)   │
-│  Optimal energy policy      Stockpile release: ΔE[40q] = −7.4505       │
+│  Quantum-advantage nodes    39 of 40 (|ΔP| > 0.15 vs. classical MC)     │
+│  Peak classical underest.   30× at node RM-B (P_VQE = 0.95 vs 0.03)     │
+│  Optimal energy policy      Stockpile release: ΔE[40q] = −7.4505        │
 │  Network stabilisation      16.67% energy reduction from baseline       │
-│  Top ADAPT gradient         Supplier subsidy: g = 4.1955               │
-│  Catastrophe overlap        0.147% at T ≤ 1 (thermodynamic protection) │
-│  Scaling fit quality        R² = 0.9948 across 6 MPI data points       │
-│  40q classical barrier      17.6 TB RAM · 1,308 hours per evaluation   │
-│  Estimated financial gain   ~$8–12M annual (representative $600M FMCG) │
+│  Top ADAPT gradient         Supplier subsidy: g = 4.1955                │
+│  Catastrophe overlap        0.147% at T ≤ 1 (thermodynamic protection)  │
+│  Scaling fit quality        R² = 0.9948 across 6 MPI data points        │
+│  40q classical barrier      17.6 TB RAM · 1,308 hours per evaluation    │
+│  Estimated financial gain   ~$8–12M annual (representative $600M FMCG)  │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -77,7 +77,7 @@ Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** 
 
 ## Supply Chain Encoding
 
-The 40-node retail network is modelled as a directed four-tier graph. Each business entity maps to one qubit; the binary quantum states encode whether that node is operating normally or under stress. Supplier-buyer relationships become ZZ coupling terms whose strength reflects historical co-failure probability, while an exogenous shock — a port closure, geopolitical embargo, or demand collapse — enters as a transverse X field on the affected nodes.
+The 40-node retail network is modelled as a directed four-tier graph. Each business entity maps to a single qubit; the binary quantum state encodes whether that node is operating normally or under stress. Supplier-buyer relationships become ZZ coupling terms whose strength reflects historical co-failure probability, while an exogenous shock — a port closure, geopolitical embargo, or demand collapse enters as a transverse X field on the affected nodes.
 
 ```
 H = Σᵢ hᵢZᵢ  −  Σ_{(i,j)∈E} J_{ij}ZᵢZⱼ  −  Σ_{k∈S} λₖXₖ
@@ -88,13 +88,13 @@ H = Σᵢ hᵢZᵢ  −  Σ_{(i,j)∈E} J_{ij}ZᵢZⱼ  −  Σ_{k∈S} λₖX�
 **Tier structure and local bias parameters:**
 
 ```
-Tier 0 │ Raw Materials   │ RM-A, RM-B (q0–q1)              │ h = 0.10
-Tier 1 │ Suppliers       │ Sup-A through Sup-G (q2–q8)      │ h = 0.15
-Tier 2 │ Distributors    │ Dist-01 through Dist-11 (q9–q19) │ h = 0.20
+Tier 0 │ Raw Materials   │ RM-A, RM-B (q0–q1)                 │ h = 0.10
+Tier 1 │ Suppliers       │ Sup-A through Sup-G (q2–q8)        │ h = 0.15
+Tier 2 │ Distributors    │ Dist-01 through Dist-11 (q9–q19)   │ h = 0.20
 Tier 3 │ Retail Outlets  │ Store-01 through Store-20 (q20–q39)│ h = 0.25
 ```
 
-The bias gradient reflects decreasing shock-absorption capacity as goods move downstream toward retail. Two disruption scenarios are modelled: an isolated raw-material failure at Tier 0, and a compounded crisis where an upstream collapse coincides with simultaneous demand pressure across all 20 retail outlets.
+The bias gradient reflects a decrease in shock-absorption capacity as goods move downstream toward retail. Two disruption scenarios are modelled: an isolated raw-material failure at Tier 0, and a compounded crisis where an upstream collapse coincides with simultaneous demand pressure across all 20 retail outlets.
 
 *[Figure 1 from the technical report illustrates the full network graph with node sizes proportional to VQE stress probability and edge widths proportional to coupling strength.]*
 
@@ -104,9 +104,9 @@ The bias gradient reflects decreasing shock-absorption capacity as goods move do
 
 All notebooks are designed for sequential execution on the Fujitsu QSim A64FX. Notebooks 1 and the algorithm development portions of NB2–NB5 run in Jupyter on the login node; MPI-intensive computations are dispatched via `sbatch` scripts.
 
-### NB1 — Hamiltonian Construction and Sub-network Verification
+### NB1 - Hamiltonian Construction and Sub-network Verification
 
-This notebook assembles the 40-qubit Ising Hamiltonian as an OpenFermion `QubitOperator` and validates the energy density extrapolation that underpins the full-scale analysis. Exact diagonalisation at 12 and 16 qubits confirms a conserved energy density of −1.117 a.u./qubit with R² = 1.000, establishing the basis for projecting the ground-state energy to 40 qubits. The spectral gap Δ = 1.3000 a.u. remains consistent across both sub-networks, which mitigates barren plateau risk in downstream VQE optimisation.
+This notebook constructs the 40-qubit Ising Hamiltonian as an OpenFermion `QubitOperator` and validates the energy-density extrapolation that underpins the full-scale analysis. Exact diagonalisation at 12 and 16 qubits confirms a conserved energy density of −1.117 a.u./qubit with R² = 1.000, establishing the basis for projecting the ground-state energy to 40 qubits. The spectral gap Δ = 1.3000 a.u. remains consistent across both sub-networks, mitigating the risk of barren plateaus in downstream VQE optimisation.
 
 **Outputs saved to:** `QRSPPS_hamiltonians.pkl`
 
@@ -114,13 +114,13 @@ This notebook assembles the 40-qubit Ising Hamiltonian as an OpenFermion `QubitO
 
 ---
 
-### NB2 — VQE Ground State on Fujitsu A64FX (30 Qubits, 4-node MPI)
+### NB2 - VQE Ground State on Fujitsu A64FX (30 Qubits, 4-node MPI)
 
 VQE is executed on a 30-qubit sub-network selected to preserve the complete supply chain backbone. All of Tier 0 (2 nodes), Tier 1 (7 nodes), and Tier 2 (11 nodes) are retained in full. From Tier 3, the 10 retail stores with the highest ZZ coupling degree are included directly; the remaining 10 are handled via mean-field extrapolation using the conserved energy density.
 
-The Hardware-Efficient Ansatz uses depth D=3 with alternating RY rotation layers and a brickwork CNOT entangling structure, yielding 120 variational parameters. COBYLA optimisation with 5 independent random initialisations consistently converges to the same ground state energy, providing statistical confirmation that the landscape is well-conditioned and free from dominant barren plateau effects.
+The Hardware-Efficient Ansatz uses depth D=3 with alternating RY rotation layers and a brickwork CNOT entangling structure, yielding 120 variational parameters. COBYLA optimisation with 5 independent random initialisations consistently converges to the same ground-state energy, providing statistical confirmation that the landscape is well-conditioned and free of dominant barren plateau effects.
 
-**Key outcome:** E₀[30q] = −33.5198 a.u. → scaled to E₀[40q] = −44.6931 a.u., with zero error against the independently verified exact value across all five restarts. Node-level stress probabilities reveal that 39 of 40 supply chain nodes exhibit quantum-detected cascade failure probability more than 15 percentage points above the classical Monte Carlo estimate — a divergence sufficient to reclassify risk from "moderate" to "critical" at those nodes.
+**Key outcome:** E₀[30q] = −33.5198 a.u. → scaled to E₀[40q] = −44.6931 a.u., with zero error against the independently verified exact value across all five restarts. Node-level stress probabilities reveal that 39 of 40 supply chain nodes exhibit quantum-detected cascade-failure probabilities more than 15 percentage points above the classical Monte Carlo estimate, a divergence sufficient to reclassify risk from "moderate" to "critical" at those nodes.
 
 **Outputs saved to:** `QRSPPS_vqe_results.pkl`
 
@@ -128,7 +128,7 @@ The Hardware-Efficient Ansatz uses depth D=3 with alternating RY rotation layers
 
 ---
 
-### NB3 — ADAPT-VQE Counterfactual Policy Ranking
+### NB3 - ADAPT-VQE Counterfactual Policy Ranking
 
 Six macroeconomic interventions are encoded as Hamiltonian perturbations and evaluated against the VQE ground state computed in NB2. Rather than running a full VQE cycle for each scenario, the ADAPT-VQE gradient measures how strongly each perturbation operator displaces the system from its current stress minimum. This reduces policy evaluation from hundreds of circuit iterations to a single expectation value per scenario.
 
@@ -153,11 +153,11 @@ A critical portfolio insight emerges from the divergence between the two ranking
 
 ---
 
-### NB4 — DOS-QPE Spectral Reconstruction and Tail Risk Quantification
+### NB4 - DOS-QPE Spectral Reconstruction and Tail Risk Quantification
 
 Starting from the VQE ground state, the supply chain Hamiltonian is evolved in time using a Trotter decomposition. The survival amplitude A(t) = ⟨ψ₀|e^{−iHt}|ψ₀⟩ is sampled at 64 discrete time steps with Tmax = 15.0, then transformed via a Hanning-windowed FFT to recover the density of states. The Nyquist frequency (2.10 rad/unit) comfortably exceeds the spectral width (1.73 a.u. at 40q scale), confirming that the 64-step discretisation introduces no aliasing artefacts.
 
-The Boltzmann-weighted catastrophe probability Pcat(T) maps the DOS onto a continuous risk curve as a function of market volatility temperature T — a direct proxy for implied volatility analogous to the VIX. At T ≤ 1, Pcat converges to 0.147% across all six policy scenarios, confirming robust thermodynamic protection of the network under stable conditions. Above T = 5, risk escalates sharply, identifying the exact volatility threshold at which thermal fluctuations begin to overcome the spectral gap — a leading indicator of systemic fragility unavailable from classical VaR snapshots.
+The Boltzmann-weighted catastrophe probability Pcat(T) maps the DOS onto a continuous risk curve as a function of market volatility temperature T, a direct proxy for implied volatility analogous to the VIX. At T ≤ 1, Pcat converges to 0.147% across all six policy scenarios, confirming robust thermodynamic protection of the network under stable conditions. Above T = 5, risk escalates sharply, identifying the exact volatility threshold at which thermal fluctuations begin to overcome the spectral gap, a leading indicator of systemic fragility unavailable from classical VaR snapshots.
 
 A separate cascade simulation tracks stress propagation across all 40 nodes over a 6-unit time window. Tier 0 stress propagates through Tier 1 and Tier 2 within approximately 3 time units before reaching Tier 3 retail, defining the actionable intervention window for crisis response teams.
 
@@ -167,11 +167,11 @@ A separate cascade simulation tracks stress propagation across all 40 nodes over
 
 ---
 
-### NB5 — Hardware Scaling Benchmarks (12 to 30 Qubits)
+### NB5 - Hardware Scaling Benchmarks (12 to 30 Qubits)
 
 Six independent MPI measurements at qubit counts from 24q to 30q, combined with five single-node benchmarks from 12q to 20q, establish the empirical scaling law governing execution time on the Fujitsu A64FX. The least-squares exponential fit yields a doubling rate of r = 1.1993 per qubit (R² = 0.9948), slightly above the theoretical O(2ⁿ) baseline due to MPI inter-node communication overhead at larger state-vector sizes.
 
-At 30 qubits, the state-vector occupies 17.2 GB — within the ~28.9 GB usable RAM per A64FX node but requiring a 4-node MPI allocation for stability once observable construction overhead is included. A 31-qubit run would require 34.4 GB, exceeding total node RAM; this is a physical hardware ceiling rather than a software or configuration limitation. Extrapolating the validated scaling law to 40 qubits yields a classical requirement of 17.6 TB RAM and 1,308 hours per evaluation — confirming that quantum hardware is not merely advantageous but mandatory for exact correlated cascade analysis at industrial scale.
+At 30 qubits, the state vector occupies 17.2 GB, within the ~28.9 GB usable RAM per A64FX node, but requiring a 4-node MPI allocation for stability once observable construction overhead is included. A 31-qubit run would require 34.4 GB, exceeding total node RAM; this is a physical hardware ceiling rather than a software or configuration limitation. Extrapolating the validated scaling law to 40 qubits yields a classical requirement of 17.6 TB RAM and 1,308 hours per evaluation, confirming that quantum hardware is not merely advantageous but mandatory for exact correlated cascade analysis at an industrial scale.
 
 **Outputs saved to:** `QRSPPS_scaling_results.pkl`
 
@@ -181,7 +181,7 @@ At 30 qubits, the state-vector occupies 17.2 GB — within the ~28.9 GB usable R
 
 ## Hardware Advantage on Fujitsu A64FX
 
-The performance gap between the Fujitsu A64FX and a standard workstation is not marginal — it is the difference between a scientifically meaningful result and an incomplete one.
+The performance gap between the Fujitsu A64FX and a standard workstation is not marginal, it is the difference between a scientifically meaningful result and an incomplete one.
 
 | Capability Metric | Standard Workstation | Fujitsu A64FX |
 |---|---|---|
@@ -192,41 +192,13 @@ The performance gap between the Fujitsu A64FX and a standard workstation is not 
 | MPI state-vector distribution | Not feasible | **4-node, 48 MPI ranks** |
 | Scaling law quality R² | Not measurable | **0.9948 (6 data points)** |
 
-The SVE-accelerated Qulacs MPI kernel on the A64FX partitions the complex amplitude vector across 48 MPI ranks, making 30-qubit execution stable at the physical node memory ceiling. Without this distributed backend, the 30-qubit computation anchoring the entire pipeline would be infeasible on commodity infrastructure.
-
----
-
-## Repository Layout
-
-```
-QR-SPPS/
-│
-├── notebooks/
-│   ├── NB1_Hamiltonian_40q.ipynb       # Hamiltonian construction and sub-network exact verification
-│   ├── NB2_VQE_30q.py                  # VQE ground state — sbatch MPI execution
-│   ├── NB3_Policy_30q.py               # ADAPT-VQE counterfactual policy ranking
-│   ├── NB4_DOSQPE_30q.py               # Spectral reconstruction and Boltzmann tail risk
-│   └── NB5_Scaling.py                  # Hardware benchmarks 12–30 qubits
-│
-├── data/
-│   ├── QRSPPS_hamiltonians.pkl         # Hamiltonian, exact diagonalisation, spectral gap
-│   ├── QRSPPS_vqe_results.pkl          # Ground state, node stress map, quantum advantage
-│   ├── QRSPPS_policy_results.pkl       # ADAPT gradients, six policy outcomes, delta matrix
-│   ├── QRSPPS_dosqpe_results.pkl       # Eigenspectrum, survival amplitude, tail risk, cascade
-│   └── QRSPPS_scaling_results.pkl      # Qubit benchmarks, scaling law, 40q projection
-│
-├── dashboard.py                        # Streamlit production dashboard (six interactive modules)
-├── setup_env.sh                        # Environment setup for Fujitsu QSim A64FX cluster
-├── requirements.txt                    # Python dependencies
-├── LICENSE
-└── README.md
-```
+The SVE-accelerated Qulacs MPI kernel on the A64FX partitions the complex-amplitude vector across 48 MPI ranks, enabling 30-qubit execution to remain stable at the physical-node memory ceiling. Without this distributed backend, the 30-qubit computation anchoring the entire pipeline would be infeasible on commodity infrastructure.
 
 ---
 
 ## Environment Setup
 
-> **Architecture note:** The Fujitsu QSim cluster runs an x86 login node (`loginvm-140`) and ARM A64FX compute nodes. These are architecturally incompatible — all QARP and Qulacs execution must occur on compute nodes via `salloc` or `sbatch`. Do not run quantum code on the login node.
+> **Architecture note:** The Fujitsu QSim cluster runs an x86 login node (`loginvm-140`) and ARM A64FX compute nodes. These are architecturally incompatible; all QARP and Qulacs execution must occur on compute nodes via `salloc` or `sbatch`. Do not run quantum code on the login node.
 
 **Step 1: Activate the environment**
 ```bash
@@ -389,7 +361,7 @@ The 16.67% reduction in network stress energy achieved by the Stockpile release 
 
 **Direct stock-out savings:** For a mid-size FMCG operator with $600M annual revenue experiencing disruption episodes 2–4 times per year, the quantum-stabilised network is estimated to reduce stock-out frequency by 18–22% (proportional to the 16.67% energy metric across 39/40 covered nodes), yielding approximately $8–12M in annual avoided lost-sales revenue. This estimate applies standard industry stress-energy proportionality; the underlying energy figure is directly verified from `QRSPPS_policy_results.pkl`.
 
-**Crisis response speed:** Classical sequential policy evaluation requires full VQE re-optimisation per scenario — hundreds of circuit iterations taking hours per policy. ADAPT-VQE gradient screening completes the same six-policy comparison in under six seconds total. During an active supply disruption, this speed differential translates to a 12–18 hour earlier intervention window.
+**Crisis response speed:** Classical sequential policy evaluation requires full VQE re-optimisation per scenario, hundreds of circuit iterations taking hours per policy. ADAPT-VQE gradient screening completes the same six-policy comparison in under six seconds total. During an active supply disruption, this speed differential translates into a 12–18-hour earlier intervention window.
 
 **Regulatory value:** The continuous Pcat(T) tail risk curve from DOS-QPE integrates directly into existing VaR frameworks, providing a physics-grounded measure of catastrophic supply failure probability at any market volatility level — an output not derivable from classical stress-testing at this network scale.
 
