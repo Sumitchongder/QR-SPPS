@@ -17,6 +17,27 @@
 </div>
 
 ---
+## 🌐 Live Simulator
+
+<div align="center">
+<br/>
+
+<a href="https://huggingface.co/spaces/Sumitchongder9/QR-SPPS">
+<img src="https://img.shields.io/badge/CLICK%20TO%20OPEN%20LIVE%20DASHBOARD%20%E2%86%97-huggingface.co%2Fspaces%2FSumitchongder9%2FQR--SPPS-6366f1?style=for-the-badge&labelColor=020817" width="80%"/>
+</a>
+<br/><br/>
+
+**[`🔗 https://huggingface.co/spaces/Sumitchongder9/QR-SPPS`](https://huggingface.co/spaces/Sumitchongder9/QR-SPPS)**
+<br/>
+
+</div>
+<br/>
+<div align="center">
+<img src="https://github.com/user-attachments/assets/7ea64af7-06ba-4ccb-a56e-fad50342b744" alt="QR-SPPS Quantum Retail Shock Propagation Simulator Dashboard" width="90%"/>
+<br/><br/>
+</div>
+
+---
 
 ## What This Project Does
 
