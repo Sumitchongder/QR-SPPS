@@ -445,7 +445,7 @@ All `.pkl` output files were generated exclusively through quantum simulation ru
 | `QRSPPS_dosqpe_results.pkl` | Full eigenspectrum, survival amplitude, Boltzmann tail risk, cascade dynamics |
 | `QRSPPS_scaling_results.pkl` | 12–30q runtime benchmarks, depth study, pipeline summary, 40q projection |
 
-Every reported numerical result is independently reproducible via `pickle.load()` — no quantum simulation re-execution is required.
+Every reported numerical result is independently reproducible via `pickle.load()`; no quantum simulation re-execution is required.
 
 ---
 
@@ -456,11 +456,11 @@ Every reported numerical result is independently reproducible via `pickle.load()
 | Fujitsu QARP | v0.4.4 (Production Build) |
 | Qulacs | 0.6.12 (A64FX-optimised, SVE-accelerated MPI kernel) |
 | Python | 3.12 via pyenv + venv (~QARPdemo) |
-| MPI | mpi4py 4.1.1 — sbatch execution only |
+| MPI | mpi4py 4.1.1 (sbatch execution only) |
 | Hardware | Fujitsu QSim FX700 · 1024 A64FX nodes · 32 GB RAM per node |
 | MPI Allocation | 4 nodes · 12 tasks/node · 48 MPI ranks total |
 | Cluster Partition | Interactive · 12-hour allocations for 29–30q runs |
-| Login Node | x86 (loginvm-140) — algorithm development only; not used for quantum execution |
+| Login Node | x86 (loginvm-140) algorithm development only; not used for quantum execution |
 
 ---
 
