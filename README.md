@@ -10,7 +10,7 @@
 
 **Fujitsu Quantum Simulator Challenge 2025–26 · Group A · g140-user1**
 
-*Quantum entanglement-based detection of correlated retail supply chain failures — executed on the Fujitsu A64FX ARM supercomputer at the 40-qubit industrial scale.*
+*Quantum entanglement-based detection of correlated retail supply chain failures executed on the Fujitsu A64FX ARM supercomputer at the 40-qubit industrial scale.*
 
 [Live Dashboard](https://huggingface.co/spaces/Sumitchongder9/QR-SPPS) · [arXiv Preprint](https://arxiv.org/abs/2604.00035) · [Verified Results](#results-at-a-glance) · [Platform Feedback](#fujitsu-qarp-platform-feedback)
 
@@ -20,7 +20,7 @@
 
 ## What This Project Does
 
-Supply chains fail in correlated, nonlinear ways that classical risk models are not designed to capture. When a raw-material node collapses, the damage cascades through multiple tiers simultaneously — yet standard Monte Carlo methods treat each node as statistically independent, producing catastrophically optimistic risk estimates. The 2021 semiconductor crisis, which erased roughly $210B from automotive revenues, is a real-world illustration of exactly this blind spot.
+Supply chains fail in correlated, nonlinear ways that classical risk models are not designed to capture. When a raw-material node collapses, the damage cascades through multiple tiers simultaneously, yet standard Monte Carlo methods treat each node as statistically independent, producing catastrophically optimistic risk estimates. The 2021 semiconductor crisis, which erased roughly $210B from automotive revenues, is a real-world illustration of exactly this blind spot.
 
 QR-SPPS addresses this gap by translating the supply chain risk problem into the language of quantum physics. A 40-node, four-tier retail network is encoded as a quantum Ising spin system, where inter-supplier dependencies become ZZ entanglement operators and exogenous disruptions become transverse field terms. This mapping allows the system's minimum-stress equilibrium to be found using a Variational Quantum Eigensolver without the exponential classical overhead that makes brute-force enumeration infeasible beyond roughly 20 nodes.
 
