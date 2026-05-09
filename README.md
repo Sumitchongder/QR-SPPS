@@ -27,7 +27,7 @@ QR-SPPS addresses this gap by translating the supply chain risk problem into the
 Three algorithmic stages run sequentially on the **Fujitsu QSim FX700 cluster** using **Fujitsu QARP v0.4.4**:
 
 1. **VQE** identifies the ground-state stress configuration and flags cascade-prone nodes via quantum entanglement
-2. **ADAPT-VQE gradient screening** ranks macroeconomic policy interventions at a computational cost of one operator expectation per policy — no re-optimisation required
+2. **ADAPT-VQE gradient screening** ranks macroeconomic policy interventions at a computational cost of one operator expectation per policy, no re-optimisation required
 3. **DOS-QPE** reconstructs the full energy eigenspectrum and produces a Boltzmann-weighted catastrophe probability curve as a function of market volatility temperature, suitable for direct integration into regulatory VaR frameworks
 
 > **Hardware vs. Preprint:** The arXiv preprint (2604.00035) establishes the theoretical framework and algorithmic design. This repository documents the **hardware execution** on the Fujitsu A64FX, which produces substantially superior results: 39/40 quantum-advantage nodes vs. 14/40 on a standard workstation, 64 Trotter steps vs. 32, and full 5-restart VQE convergence — none of which are achievable on commodity hardware due to memory constraints.
